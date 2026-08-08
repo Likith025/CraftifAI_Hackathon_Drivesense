@@ -1,386 +1,264 @@
+# DriveSense Edge
 
-# Drivesense
-> Real-time vehicle motion monitoring and event detection using ESP32, MPU6050, and FirmGen.
-> Real-time vehicle motion monitoring and event detection using ESP32, MPU6050, and FirmGen.
+ESP-IDF firmware for an ESP32-C3-DevKitM-1 connected to an HW290 10DOF sensor using its MPU6050-compatible accelerometer and gyroscope. The ESP32 performs calibration, filtering, motion detection, and event classification locally. It prints sensor data to the serial monitor and publishes the current event status to a laptop over TCP on the same Wi-Fi network.
 
-## 1. Project Overview
+## Problem definition
 
-Drive Sense is an embedded system designed to monitor vehicle motion using an MPU6050 inertial sensor connected to an ESP32.
+Vehicle motion can contain several different patterns that are useful for an edge safety or telematics system:
 
-The system reads accelerometer and gyroscope data, processes the data locally on the ESP32, and identifies significant motion events such as harsh acceleration/braking, aggressive cornering, and road impacts.
+- Forward/backward harsh acceleration or braking
+- Aggressive cornering
+- Short road impacts such as potholes
+- General significant movement that does not confidently match a specific event
 
-The firmware is developed iteratively using FirmGen. Natural-language requirements are used to generate, modify, build, deploy, and validate the firmware on real hardware.
+DriveSense Edge keeps these decisions on the microcontroller for low latency and operation without a dashboard or cloud service. A laptop is currently used only as a status receiver for testing; it does not perform sensor processing or classification.
 
-The main idea is to perform the important processing at the edge:
+## Target users
+
+- Embedded-systems and automotive engineering students
+- Developers prototyping vehicle telemetry and event detection
+- Test engineers tuning IMU thresholds using real hardware
+- Researchers building a local, low-cost motion-classification platform
+
+## Current capabilities
+
+- MPU6050-compatible HW290 IMU over I²C
+- Silent startup calibration with gyro-bias correction
+- Configurable first-order low-pass filtering
+- Acceleration and angular-velocity magnitudes
+- Internal motion evaluation every 100 ms
+- Serial sensor output every 1 second
+- Event states:
+  - `NORMAL`
+  - `MOTION DETECTED`
+  - `HARSH ACCEL/BRAKING`
+  - `AGGRESSIVE CORNERING`
+  - `ROAD IMPACT`
+- Event priority:
 
 ```text
-MPU6050
-   ↓
-ESP32
-   ↓
-Sensor Processing
-   ↓
-Event Detection
-   ↓
-Status
-   ↓
-Wi-Fi
-   ↓
-Laptop Dashboard
-
-2. Problem Definition
+ROAD IMPACT > AGGRESSIVE CORNERING > HARSH ACCEL/BRAKING > MOTION DETECTED > NORMAL
+```
 
-Vehicle motion contains useful information about driving behavior and road conditions.
-
-Sudden acceleration, hard braking, aggressive cornering, and road impacts can produce recognizable patterns in accelerometer and gyroscope data.
+- Wi-Fi station mode with DHCP
+- Single-client TCP status server on port `5000`
+- Newline-delimited status messages sent on connection, status changes, and one-second heartbeats
 
-The objective of Drive Sense is to use a low-cost inertial sensor and ESP32 to process this motion data locally and identify significant events in real time.
+`CRASH` is not currently implemented.
 
-Instead of sending raw sensor data to another system for processing, the ESP32 performs the sensor processing and event detection at the edge.
+## Hardware and wiring
 
-The resulting status can then be sent to a laptop over Wi-Fi for visualization.
+### ESP32-C3 to HW290 I²C
 
-The project also demonstrates an agentic firmware-development workflow using FirmGen, where firmware is developed through natural-language requirements and iteratively validated on physical hardware.
+| HW290 signal | ESP32-C3-DevKitM-1 |
+|---|---:|
+| VCC | 3.3 V |
+| GND | GND |
+| SDA | GPIO8 |
+| SCL | GPIO10 |
+|
 
-3. Target Users
+Current sensor configuration:
 
-Potential applications include:
+- 7-bit I²C address: `0x68`
+- I²C frequency: 400 kHz
+- Accelerometer range: ±2 g
+- Gyroscope range: ±250 dps
 
-Fleet operators
-Commercial vehicle operators
-Automotive developers
-Vehicle telematics applications
-Driver-behavior monitoring systems
-Embedded and IoT applications
+GPIO8 is also connected to the DevKit onboard RGB LED. The LED connection can interfere with I²C signal integrity. If the bus is unreliable, use external 2.2–4.7 kΩ pull-ups and move SDA to GPIO6 or GPIO7, then change only `APP_I2C_SDA_GPIO` in `app_config.h`.
 
-Drive Sense is currently a hackathon prototype and is not intended to be used as a certified automotive safety system.
+### BOM
 
-4. Hardware
-Main Components
-Component	Purpose
-ESP32	Main MCU and edge-processing device
-MPU6050	3-axis accelerometer and 3-axis gyroscope
-USB cable	Power and firmware programming
-Jumper wires	Sensor connections
-Laptop	FirmGen development and dashboard
-Logic analyzer	I²C and digital-signal debugging
-
-The MPU6050 communicates with the ESP32 using I²C.
+- ESP32-C3-DevKitM-1
+- HW290 10DOF sensor module with MPU6050-compatible IMU
+- Jumper wires or suitable connector cables
+- USB data cable for power, flashing, and serial monitoring
+- 2.2–4.7 kΩ I²C pull-up resistors if the module/board does not provide reliable pull-ups
+- Laptop on the same Wi-Fi network for TCP status testing
+- Optional smartphone mobile hotspot configured for 2.4 GHz operation
 
-5. System Architecture
-                    ┌──────────────────┐
-                    │      MPU6050     │
-                    │                  │
-                    │ Accelerometer    │
-                    │ Gyroscope        │
-                    └────────┬─────────┘
-                             │
-                             │ I²C
-                             ▼
-                    ┌──────────────────┐
-                    │      ESP32       │
-                    │                  │
-                    │ Sensor Reading   │
-                    │ Calibration      │
-                    │ Filtering        │
-                    │ Motion Detection │
-                    │ Event Detection  │
-                    └────────┬─────────┘
-                             │
-                             │ Wi-Fi / TCP
-                             ▼
-                    ┌──────────────────┐
-                    │ Laptop Dashboard │
-                    │                  │
-                    │ Current Status   │
-                    └──────────────────┘
+Do not connect 5 V logic directly to ESP32 GPIO pins. Confirm the sensor module's supply and logic-level requirements before wiring.
 
-The ESP32 performs the primary sensor processing and event detection.
+## Source code organization
 
-The laptop dashboard only displays the resulting status.
+```text
+.
+├── CMakeLists.txt                  # ESP-IDF project definition
+├── main/
+│   ├── CMakeLists.txt              # Component sources and dependencies
+│   └── entry.c                     # Single app_main() entry point
+├── firmware/
+│   ├── app/
+│   │   ├── app.c                   # Calibration, filtering, event state machine
+│   │   └── app.h
+│   ├── configs/
+│   │   └── app_config.h            # Pins, thresholds, timing, Wi-Fi settings
+│   ├── interfaces/
+│   │   ├── imu_if.h                # IMU sample contract
+│   │   └── status_transport.h      # Status publishing contract
+│   ├── platforms/esp32/
+│   │   ├── hw290_imu.c             # ESP-IDF I²C and MPU6050 register driver
+│   │   ├── hw290_imu.h
+│   │   └── wifi_tcp_status.c       # Wi-Fi station and TCP server
+│   └── docs/overview.md             # Documentation landing page
+└── components/firmgen_telemetry/   # IDE telemetry component; not application logic
+```
 
-6. Sensor Data
+`app.c` owns all sensor processing and event decisions. The laptop receives already-classified status text and does not reproduce the detection logic.
 
-The MPU6050 provides six motion measurements.
+## Processing behavior
 
-Accelerometer
-X-axis acceleration
-Y-axis acceleration
-Z-axis acceleration
+### Startup calibration
 
-Unit:
+The sensor must remain stationary during startup. The firmware collects 100 valid samples at 20 ms intervals, averages the gyroscope axes, and subtracts those averages from later gyro readings. The initial accelerometer vector establishes the stationary orientation reference; it is not treated as a gravity-free accelerometer offset.
 
-g
+### Filtering and sampling
 
-The firmware also calculates acceleration magnitude.
+- Low-pass coefficient: `APP_FILTER_ALPHA = 0.30`
+- Internal processing/evaluation: every 100 ms
+- Serial output: every 1 second
+- Output is flushed immediately after each line
 
-Gyroscope
-X-axis angular velocity
-Y-axis angular velocity
-Z-axis angular velocity
+### Event classification
 
-Unit:
+- **HARSH ACCEL/BRAKING:** sustained calibrated X-axis acceleration deviation. Gyroscope activity alone cannot create this event.
+- **AGGRESSIVE CORNERING:** sustained calibrated Y-axis acceleration together with rotation on the configured Z gyro axis.
+- **ROAD IMPACT:** sudden Z gyro disturbance followed by recovery below the configured recovery level within the configured short window.
+- **MOTION DETECTED:** multi-sample fallback for significant unmatched acceleration or total gyro movement.
+- **NORMAL:** no event pattern is active.
 
-degrees per second (dps)
+The thresholds and confirmation values are in `firmware/configs/app_config.h` and are intended for physical tuning.
 
-The firmware also calculates angular velocity magnitude.
+## Wi-Fi and laptop status transport
 
-7. Sensor Orientation
+The ESP32 operates as a Wi-Fi **station**. It does not create a hotspot. It must join an existing 2.4 GHz network. For a phone hotspot, enable the hotspot first and set its name/password to match the configuration.
 
-For the current implementation, the sensor is interpreted as:
+Current development credentials:
 
-X → Forward / Backward
-Y → Left / Right
-Z → Vertical
+```c
+#define APP_WIFI_SSID     "drivesense"
+#define APP_WIFI_PASSWORD "25092002"
+#define APP_TCP_STATUS_PORT 5000
+```
 
-This orientation is used when interpreting the sensor data for vehicle-related events.
+These values are source-visible placeholders for development. Replace the password before sharing or production use.
 
-The sensor should remain mounted in a consistent orientation during testing.
+The ESP32 obtains an IP address through DHCP and runs a single-client TCP server. It sends only one status string per line, for example:
 
-8. Firmware Development
-
-The firmware was developed incrementally using FirmGen.
-
-The development process follows:
-
-Natural-language requirement
-          ↓
-FirmGen generated plan
-          ↓
-Firmware generation
-          ↓
-Build
-          ↓
-Flash to ESP32
-          ↓
-Test on real hardware
-          ↓
-Observe results
-          ↓
-Refine requirement
-          ↓
-Rebuild and validate
-
-The firmware development was performed directly against real MPU6050 data.
-
-9. Sensor Acquisition
-
-The first stage of development established communication between the ESP32 and MPU6050 using I²C.
-
-The firmware reads:
-
-Accelerometer X/Y/Z
-Gyroscope X/Y/Z
-
-Example output:
-
-ACC [g] X:+0.156 Y:+0.926 Z:+0.369 |
-GYRO [dps] X:-1.588 Y:-3.557 Z:+0.374
-
-This stage was used to verify that the sensor was communicating correctly and producing usable measurements.
-
-10. Calibration and Filtering
-
-At startup, the firmware collects stationary samples from the MPU6050.
-
-The collected samples are used to estimate sensor offsets.
-
-The firmware then:
-
-Collects stationary samples.
-Calculates accelerometer and gyroscope offsets.
-Applies gyroscope bias correction.
-Applies a basic low-pass filter.
-Calculates acceleration magnitude.
-Calculates angular velocity magnitude.
-Continues outputting the processed values.
-
-Example:
-
-ACC [g] X:-0.017 Y:+0.133 Z:+1.008 MAG:+1.017 |
-GYRO [dps] X:+0.013 Y:-0.108 Z:-0.202 MAG:+0.229
-
-11. Event Detection
-
-After basic motion detection was validated, the firmware was extended to classify significant movement.
-
-The planned event types are:
-
-HARSH ACCEL/BRAKING
-AGGRESSIVE CORNERING
-ROAD IMPACT
-Harsh Acceleration / Braking
-
-Uses the longitudinal acceleration component to identify significant forward or backward acceleration.
-
-X-axis → Forward / Backward
-Aggressive Cornering
-
-Uses lateral acceleration together with rotation around the vertical axis.
-
-Y-axis acceleration
-+
-Z-axis gyro rotation
-Road Impact
-
-Looks for a sudden vertical acceleration disturbance followed by recovery within a short time window.
-
-Sudden Z-axis disturbance
-        ↓
-Short recovery window
-        ↓
-ROAD IMPACT
-
-The detection logic uses multiple samples so that a single noisy sensor reading does not immediately classify an event.
-
-13. Event Priority
-
-Only one event status is reported at a time.
-
-The priority is:
-
-ROAD IMPACT
-     ↓
-AGGRESSIVE CORNERING
-     ↓
-HARSH ACCEL/BRAKING
-     ↓
-MOTION DETECTED
-     ↓
-NORMAL
-
-If multiple conditions overlap, the higher-priority event is reported.
-
-This keeps the dashboard simple and prevents multiple conflicting status labels from being displayed simultaneously.
-
-12. Detection Parameters
-
-The initial prototype values used during development are:
-
-Harsh acceleration/braking:
-0.30 g, confirmed over 2 samples
-
-Cornering:
-0.25 g lateral acceleration
-+
-12 dps Z-axis rotation
-
-Road impact:
-0.35 g Z-axis disturbance
-+
-0.15 g sudden change
-
-Impact recovery window:
-500 ms
-
-Event hold time:
-1000 ms
-
-Return-to-normal confirmation:
-3 quiet evaluations
-
-These values are prototype thresholds and were intended for demonstration and hardware tuning rather than production automotive use.
-
-13. Serial Output
-
-The firmware provides serial output for development and validation.
-
-The current format is:
-
-ACC [g] X:<value> Y:<value> Z:<value> MAG:<value> |
-GYRO [dps] X:<value> Y:<value> Z:<value> MAG:<value> |
-STATUS:<event>
-
-Example:
-
-ACC [g] X:-0.097 Y:-0.008 Z:+1.018 MAG:+1.022 |
-GYRO [dps] X:-0.176 Y:+0.001 Z:-0.130 MAG:+0.219 |
-STATUS:NORMAL
-
-14. Wi-Fi Communication
-
-The ESP32 connects to a Wi-Fi network as a station.
-
-The laptop and ESP32 must be connected to the same Wi-Fi network.
-
-The ESP32 runs a TCP server on a configurable port.
-
-The communication architecture is:
-
-ESP32
-  │
-  │ Wi-Fi
-  ▼
-TCP Server
-  │
-  ▼
-Laptop
-
-The ESP32 remains responsible for all sensor processing and event decisions.
-
-The laptop receives the resulting status.
-
-The Wi-Fi credentials are kept separately from the sensor logic in the application configuration.
-
-Example configuration:
-
-WIFI_SSID
-WIFI_PASSWORD
-TCP_PORT
-
-The TCP connection supports a laptop client connecting to the ESP32.
-
-If the laptop disconnects, the ESP32 continues running the sensor and event-detection logic.
-
-15. TCP Status Communication
-
-The ESP32 sends the current system status to the connected laptop.
-
-The status values include:
-
+```text
 NORMAL
 MOTION DETECTED
-HARSH ACCEL/BRAKING
 AGGRESSIVE CORNERING
 ROAD IMPACT
+```
 
-The communication is intentionally simple so that the laptop dashboard only needs to receive the latest status.
+### Find the ESP32 IP address
 
-Example:
+Check the phone hotspot's connected-device list or the router's DHCP lease list. The board used during validation had MAC address `A0:F2:62:01:CB:58`; the assigned IP can change after reconnecting the hotspot.
 
-NORMAL
+### Test the TCP port from Windows PowerShell
 
-or:
+```powershell
+Test-NetConnection <ESP32_IP> -Port 5000
+```
 
-ROAD IMPACT
+The result should contain:
 
-The TCP server uses a configurable port
+```text
+TcpTestSucceeded : True
+```
 
-Wiring
+### Receive status with Ncat
 
-The MPU6050 communicates with the ESP32 using I²C.
+```powershell
+ncat <ESP32_IP> 5000
+```
 
-MPU6050	ESP32	Function
-VCC	[UPDATE]	Power
-GND	GND	Ground
-SDA	[UPDATE]	I²C Data
-SCL	[UPDATE]	I²C Clock
+### Receive status with Python
 
-Update the pin numbers with the final hardware configuration before submission.
+```python
+import socket
 
-Bill of Materials
-Component	Quantity	Purpose
-ESP32	1	Main MCU and edge processing
-MPU6050	1	Accelerometer and gyroscope
-USB cable	1	Power and programming
-Jumper wires	As required	Hardware connections
-Laptop	1	FirmGen and dashboard
+ESP32_IP = "192.168.1.125"  # replace with the current DHCP address
+ESP32_PORT = 5000
 
-Limitations
-The event-detection thresholds are prototype values.
-MPU6050 measurements are affected by sensor noise and mounting orientation.
-Event detection is rule-based and requires further real-world validation.
-The system has not been validated against real vehicle or crash datasets.
-Wi-Fi is required for communication with the laptop dashboard.
-The prototype is not intended for safety-critical automotive applications.
-The current implementation is designed for hackathon demonstration rather than production deployment.
+with socket.create_connection((ESP32_IP, ESP32_PORT), timeout=10) as sock:
+    print(f"Connected to {ESP32_IP}:{ESP32_PORT}")
+    reader = sock.makefile("r", encoding="utf-8")
+    for line in reader:
+        print(line.rstrip())
+```
+
+Save as `receive_status.py` and run:
+
+```powershell
+python receive_status.py
+```
+
+If the laptop cannot connect, check that both devices are on the same hotspot, VPN is disabled, client/AP isolation is disabled, Windows Firewall permits the test program, and the ESP32 still has the expected DHCP address.
+
+## Build, flash, and monitor
+
+Use an ESP-IDF 5.x environment with the ESP32-C3 target selected.
+
+Build only:
+
+```powershell
+idf.py set-target esp32c3
+idf.py build
+```
+
+Flash and open the serial monitor:
+
+```powershell
+idf.py -p COM11 flash monitor
+```
+
+Replace `COM11` with the detected serial port. The serial monitor baud rate is 115200. Keep the sensor stationary during the startup calibration period. The application serial line contains the current axes, magnitudes, and one event status; system boot/Wi-Fi logs may also be emitted by ESP-IDF during startup.
+
+## Configuration reference
+
+Application settings are intentionally kept in `firmware/configs/app_config.h` rather than Kconfig:
+
+| Setting | Current value | Purpose |
+|---|---:|---|
+| `APP_I2C_SDA_GPIO` | 8 | I²C data pin |
+| `APP_I2C_SCL_GPIO` | 10 | I²C clock pin |
+| `APP_IMU_I2C_ADDRESS` | `0x68` | IMU address |
+| `APP_SAMPLE_PERIOD_MS` | 1000 | Serial output interval |
+| `APP_CALIBRATION_SAMPLES` | 100 | Startup gyro samples |
+| `APP_CALIBRATION_PERIOD_MS` | 20 | Calibration interval |
+| `APP_FILTER_ALPHA` | 0.30 | Low-pass response |
+| `APP_MOTION_EVAL_PERIOD_MS` | 100 | Internal evaluation interval |
+| `APP_TCP_STATUS_PORT` | 5000 | Laptop TCP port |
+
+All event-specific thresholds, confirmation counts, Wi-Fi credentials, and retry timing are also in this header.
+
+## Limitations and safety notes
+
+- This is a prototype, not a certified automotive safety system.
+- Thresholds depend strongly on sensor mounting, vehicle orientation, road surface, and sensor quality; physical testing and tuning are required.
+- The directional model assumes the configured X/Y/Z axes match forward, lateral, and vertical vehicle directions.
+- A single stationary calibration cannot remove all accelerometer bias or compensate for an incorrectly mounted sensor.
+- The current low-pass filter can attenuate very short impacts.
+- Event labels are heuristic classifications, not severity measurements.
+- `ROAD IMPACT` currently uses the configured Z gyro disturbance/recovery pattern; validate that the physical mounting produces a useful Z gyro response.
+- Wi-Fi uses unencrypted, unauthenticated TCP on the local network. Do not expose port 5000 to the internet.
+- The TCP service supports one laptop client at a time.
+- DHCP addresses can change.
+- Phone hotspots may isolate clients or use an incompatible band; ESP32-C3 Wi-Fi requires a compatible 2.4 GHz network.
+- GPIO8 shares the onboard RGB LED and may require an alternate SDA pin.
+- The laptop dashboard has not been implemented; the current laptop role is a raw TCP status receiver.
+- There is no OTA update, TLS, authentication, data logging, crash classifier, or cloud service.
+
+## Frozen checkpoints
+
+The project has rollback snapshots in the workspace:
+
+- `.checkpoint_1`: calibrated 2-second sensor reader
+- `.checkpoint_2`: filtered and calibrated IMU output
+- `.checkpoint_3`: noise-resistant motion detection
+- `.checkpoint_4`: event classification with Z-gyro road-impact detection
+- `.checkpoint_5`: frozen baseline including Wi-Fi/TCP status transport and this detailed documentation
+
+Treat `.checkpoint_5` as the current frozen baseline. Make future changes in a separate revision and preserve this snapshot for rollback.
