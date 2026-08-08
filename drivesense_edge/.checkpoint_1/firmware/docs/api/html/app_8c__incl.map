@@ -1,0 +1,19 @@
+<map id="firmware/app/app.c" name="firmware/app/app.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="249,5,379,31"/>
+<area shape="rect" id="Node000002" href="$app_8h.html" title=" " alt="" coords="5,79,60,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,33,74,81,72,76,265,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="85,79,146,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="283,33,160,77,159,72,281,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="170,79,311,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="304,33,264,71,261,67,300,29"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="336,79,441,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="328,29,368,67,365,71,324,33"/>
+<area shape="rect" id="Node000006" href="$hw290__imu_8h.html" title=" " alt="" coords="466,79,565,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="347,28,471,71,469,77,345,33"/>
+<area shape="rect" id="Node000009" href="$app__config_8h.html" title=" " alt="" coords="589,79,684,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="366,28,577,74,575,79,365,33"/>
+<area shape="rect" id="Node000007" href="$imu__if_8h.html" title=" " alt="" coords="482,152,549,177"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="518,104,518,138,513,138,513,104"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="477,225,553,251"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="518,178,518,212,513,212,513,178"/>
+</map>

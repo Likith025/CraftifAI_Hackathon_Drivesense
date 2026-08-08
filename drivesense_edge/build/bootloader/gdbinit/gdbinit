@@ -1,0 +1,2 @@
+source D:/hackathon/drivesense_edge/build/bootloader/gdbinit/symbols
+source D:/hackathon/drivesense_edge/build/bootloader/gdbinit/connect

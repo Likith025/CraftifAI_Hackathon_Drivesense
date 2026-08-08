@@ -1,0 +1,9 @@
+Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe -DESP_PLATFORM=1 -DIDF_TARGET=esp32c3 -DCCACHE_ENABLE=1 D:\hackathon\drivesense_edge
+fatal: detected dubious ownership in repository at 'C:/Espressif/esp-idf-release-v5.5'
+'C:/Espressif/esp-idf-release-v5.5' is owned by:
+	BUILTIN/Administrators (S-1-5-32-544)
+but the current user is:
+	LIKITH-IDEAPAD/likith (S-1-5-21-1906994295-1664924171-1788401636-1001)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Espressif/esp-idf-release-v5.5

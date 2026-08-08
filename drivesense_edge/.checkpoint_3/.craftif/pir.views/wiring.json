@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0.0",
+  "view": "wiring",
+  "revision": "2d0f7785eeacfa0cb748e652dbf3fa1c",
+  "graph_version": 2,
+  "generated_at_ms": 1786180800873,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_drivesense_edge",
+    "name": "drivesense_edge topology",
+    "description": "4 nodes, 6 connections — valid",
+    "nodes": [
+      {
+        "id": "boot",
+        "node_type": "system_init",
+        "label": "Boot / app_main",
+        "description": "Bootstraps firmware startup and initializes core subsystems.",
+        "ports": [
+          {
+            "id": "boot_boot_out_0",
+            "name": "boot_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": true,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "target": "esp32c3"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -400.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_trigger_in_1",
+            "name": "trigger_in",
+            "direction": "input",
+            "datatype": "event",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_exec_out_2",
+            "name": "exec_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_data_out_3",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 1000.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 1000.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": -200.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "_i2c",
+        "node_type": "i2c_device",
+        "label": "APP I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "_i2c_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_i2c_data_in_1",
+            "name": "data_in",
+            "direction": "input",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_i2c_data_out_2",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 8,
+          "scl_pin": 10,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "pin_bindings": {
+            "sda": 8,
+            "scl": 10
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "imu_i2c",
+        "node_type": "i2c_device",
+        "label": "IMU I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "imu_i2c_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "imu_i2c_data_in_1",
+            "name": "data_in",
+            "direction": "input",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "imu_i2c_data_out_2",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 21,
+          "scl_pin": 22,
+          "address": "0x68",
+          "clock_hz": 100000
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 200.0,
+          "layer": 0
+        }
+      }
+    ],
+    "connections": [
+      [
+        "boot_boot_out_0",
+        "app_task_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "_i2c_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "imu_i2c_exec_in_0"
+      ],
+      [
+        "_i2c_data_out_2",
+        "app_task_trigger_in_1"
+      ],
+      [
+        "app_task_data_out_3",
+        "_i2c_data_in_1"
+      ],
+      [
+        "app_task_data_out_3",
+        "imu_i2c_data_in_1"
+      ]
+    ],
+    "layout": {
+      "orientation": "",
+      "node_width": 0.0,
+      "layer_gap": 0.0,
+      "node_gap": 0.0
+    }
+  },
+  "title": "Wiring Topology"
+}

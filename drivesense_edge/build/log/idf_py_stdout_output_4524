@@ -1,0 +1,21 @@
+Command: ninja all
+[1/12] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/entry.c.obj
+[2/12] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\bootloader\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 D:/hackathon/drivesense_edge/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[3/12] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/firmware/app/app.c.obj
+[4/12] No install step for 'bootloader'
+[5/12] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/firmware/platforms/esp32/hw290_imu.c.obj
+[6/12] Completed 'bootloader'
+[7/12] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/firmware/platforms/esp32/wifi_tcp_status.c.obj
+[8/12] Linking C static library esp-idf\main\libmain.a
+[9/12] Generating esp-idf/esp_system/ld/sections.ld
+[10/12] Linking CXX executable hw290_imu.elf
+[11/12] Generating binary image from built executable
+esptool.py v4.12.0
+Creating esp32c3 image...
+Merged 1 ELF section
+Successfully created esp32c3 image.
+Generated D:/hackathon/drivesense_edge/build/hw290_imu.bin
+[12/12] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/hackathon/drivesense_edge/build/partition_table/partition-table.bin D:/hackathon/drivesense_edge/build/hw290_imu.bin"
+hw290_imu.bin binary size 0xcbd50 bytes. Smallest app partition is 0x100000 bytes. 0x342b0 bytes (20%) free.

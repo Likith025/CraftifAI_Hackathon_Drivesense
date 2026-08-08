@@ -1,0 +1,9 @@
+firmware/app/app.c
+firmware/app/app.h
+firmware/configs/app_config.h
+firmware/interfaces/imu_if.h
+firmware/interfaces/status_transport.h
+firmware/platforms/esp32/hw290_imu.c
+firmware/platforms/esp32/hw290_imu.h
+firmware/platforms/esp32/wifi_tcp_status.c
+main/entry.c

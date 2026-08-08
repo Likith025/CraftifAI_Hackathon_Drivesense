@@ -1,0 +1,71 @@
+Command: ninja flash
+[1/5] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/hackathon/drivesense_edge/build/partition_table/partition-table.bin D:/hackathon/drivesense_edge/build/hw290_imu.bin"
+hw290_imu.bin binary size 0xcbd50 bytes. Smallest app partition is 0x100000 bytes. 0x342b0 bytes (20%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\bootloader\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 D:/hackathon/drivesense_edge/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[3/5] No install step for 'bootloader'
+[4/5] Completed 'bootloader'
+[4/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\esp-idf-release-v5.5\components\esptool_py && C:\Users\likit\.espressif\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/esp-idf-release-v5.5 -D SERIAL_TOOL=C:/Users/likit/.espressif/python_env/idf5.5_py3.13_env/Scripts/python.exe;;C:/Espressif/esp-idf-release-v5.5/components/esptool_py/esptool/esptool.py;--chip;esp32c3 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=D:/hackathon/drivesense_edge/build -P C:/Espressif/esp-idf-release-v5.5/components/esptool_py/run_serial_tool.cmake"
+esptool.py --chip esp32c3 -p COM11 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB 0x0 bootloader/bootloader.bin 0x10000 hw290_imu.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.12.0
+Serial port COM11
+Connecting....
+Chip is ESP32-C3 AZ (QFN32) (revision v1.1)
+Features: WiFi, BLE, Embedded Flash 4MB (XMC)
+Crystal is 40MHz
+MAC: a0:f2:62:01:cb:58
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00000000 to 0x00005fff...
+Flash will be erased from 0x00010000 to 0x000dbfff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+SHA digest in image updated
+Compressed 21056 bytes to 13211...
+Writing at 0x00000000... (100 %)
+Wrote 21056 bytes (13211 compressed) at 0x00000000 in 0.6 seconds (effective 304.3 kbit/s)...
+Hash of data verified.
+Compressed 834896 bytes to 481254...
+Writing at 0x00010000... (3 %)
+Writing at 0x0001c3ef... (6 %)
+Writing at 0x000249ec... (10 %)
+Writing at 0x0002e80e... (13 %)
+Writing at 0x00035118... (16 %)
+Writing at 0x0003c77b... (20 %)
+Writing at 0x00043746... (23 %)
+Writing at 0x0004a16d... (26 %)
+Writing at 0x00051394... (30 %)
+Writing at 0x00058634... (33 %)
+Writing at 0x0005f3ac... (36 %)
+Writing at 0x0006589d... (40 %)
+Writing at 0x0006c0b8... (43 %)
+Writing at 0x0007285e... (46 %)
+Writing at 0x00078689... (50 %)
+Writing at 0x0007e6de... (53 %)
+Writing at 0x00084c10... (56 %)
+Writing at 0x0008adee... (60 %)
+Writing at 0x000910f5... (63 %)
+Writing at 0x0009711f... (66 %)
+Writing at 0x0009d7dd... (70 %)
+Writing at 0x000a3a12... (73 %)
+Writing at 0x000a9d7e... (76 %)
+Writing at 0x000b0166... (80 %)
+Writing at 0x000b6123... (83 %)
+Writing at 0x000beaba... (86 %)
+Writing at 0x000c5057... (90 %)
+Writing at 0x000cc020... (93 %)
+Writing at 0x000d2fdd... (96 %)
+Writing at 0x000d92e7... (100 %)
+Wrote 834896 bytes (481254 compressed) at 0x00010000 in 11.6 seconds (effective 574.5 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 103...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (103 compressed) at 0x00008000 in 0.0 seconds (effective 505.0 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

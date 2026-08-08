@@ -1,0 +1,7 @@
+<map id="firmware/platforms/esp32/hw290_imu.h" name="firmware/platforms/esp32/hw290_imu.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="80,5,221,45"/>
+<area shape="rect" id="Node000002" href="$app_8c.html" title=" " alt="" coords="5,101,136,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,57,84,102,80,98,122,54"/>
+<area shape="rect" id="Node000003" href="$hw290__imu_8c.html" title=" " alt="" coords="160,93,301,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,54,215,91,211,95,176,57"/>
+</map>

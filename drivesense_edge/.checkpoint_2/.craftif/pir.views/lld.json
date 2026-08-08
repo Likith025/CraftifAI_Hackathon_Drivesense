@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0.0",
+  "view": "lld",
+  "revision": "c8c40ccd9893110ec0c34a6d45bf1526",
+  "graph_version": 1,
+  "generated_at_ms": 1786176379760,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_drivesense_edge-lld",
+    "name": "drivesense_edge topology — LLD",
+    "description": "Low-level design — FreeRTOS and peripheral/service workflow",
+    "nodes": [
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 500.0,
+          "lld_workflow": {
+            "role": "freertos",
+            "node_type": "rtos_task"
+          }
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 500.0
+        },
+        "visual": {
+          "x": -560.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "_i2c",
+        "node_type": "i2c_device",
+        "label": "APP I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "_i2c::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_i2c::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 8,
+          "scl_pin": 10,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "pin_bindings": {
+            "sda": 8,
+            "scl": 10
+          },
+          "lld_workflow": {
+            "role": "peripheral",
+            "node_type": "i2c_device"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": -232.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "imu_i2c",
+        "node_type": "i2c_device",
+        "label": "IMU I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "imu_i2c::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "imu_i2c::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 21,
+          "scl_pin": 22,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "lld_workflow": {
+            "role": "peripheral",
+            "node_type": "i2c_device"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 96.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "logger",
+        "node_type": "logger",
+        "label": "Logger",
+        "description": "Emits structured runtime logs for diagnostics.",
+        "ports": [
+          {
+            "id": "logger::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "logger::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "tag": "APP",
+          "level": "info",
+          "lld_workflow": {
+            "role": "service",
+            "node_type": "logger"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 424.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      }
+    ],
+    "connections": [
+      [
+        "_i2c::ldd::out",
+        "app_task::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "logger::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "_i2c::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "imu_i2c::ldd::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "vertical",
+      "node_width": 280.0,
+      "layer_gap": 120.0,
+      "node_gap": 48.0
+    },
+    "runtime_metadata": {
+      "telemetry_enabled": false,
+      "overlays": {
+        "ldd_edge_labels": {
+          "app_task::ldd::out|imu_i2c::ldd::in": "data_flow",
+          "_i2c::ldd::out|app_task::ldd::in": "triggers",
+          "app_task::ldd::out|logger::ldd::in": "data_flow",
+          "app_task::ldd::out|_i2c::ldd::in": "data_flow"
+        },
+        "diagram_view": "ldd"
+      }
+    }
+  },
+  "mermaid": "flowchart TD\n  subgraph freertos_runtime[\"FreeRTOS\"]\n    app_task[\"Task app_task\"]\n  end\n  _i2c[\"APP I2C Device\"]\n  imu_i2c[\"IMU I2C Device\"]\n  logger[\"Logger\"]\n  _i2c --> app_task\n  app_task --> _i2c\n  app_task --> imu_i2c\n  app_task --> logger",
+  "title": "Low-Level Design (Firmware Workflow)"
+}

@@ -1,0 +1,7 @@
+Checkpoint 1
+Firmware: HW290 IMU reader
+I2C: SDA GPIO8, SCL GPIO10, address 0x68
+Sample interval: 2 seconds
+Serial output: sensor samples only; stdout flushed after each sample
+Target: ESP32-C3
+

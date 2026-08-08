@@ -1,0 +1,54 @@
+Command: ninja all
+[0/1] Re-running CMake...
+-- Minimal build - OFF
+-- ccache will be used for faster recompilation
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32c3
+-- Project sdkconfig file D:/hackathon/drivesense_edge/sdkconfig
+Loading defaults file D:/hackathon/drivesense_edge/sdkconfig.defaults...
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/riscv/ld/rom.api.ld
+-- USING O3
+-- App "hw290_imu" version: 1
+-- Adding linker script D:/hackathon/drivesense_edge/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script D:/hackathon/drivesense_edge/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.api.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.bt_funcs.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.libgcc.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.version.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_master.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_50.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_smp.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_dtm.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_test.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.ble_scan.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.eco3.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.eco3_bt_funcs.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.libc.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.libc-suboptimal_for_misaligned_mem.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/esp_rom/esp32c3/ld/esp32c3.rom.newlib.ld
+-- Adding linker script C:/Espressif/esp-idf-release-v5.5/components/soc/esp32c3/ld/esp32c3.peripherals.ld
+-- Components: app_update bootloader bootloader_support cxx efuse esp_app_format esp_bootloader_format esp_common esp_driver_gpio esp_driver_i2c esp_hw_support esp_mm esp_partition esp_pm esp_ringbuf esp_rom esp_security esp_system esp_timer esptool_py firmgen_telemetry freertos hal heap log main mbedtls newlib partition_table pthread riscv soc spi_flash
+-- Component paths: C:/Espressif/esp-idf-release-v5.5/components/app_update C:/Espressif/esp-idf-release-v5.5/components/bootloader C:/Espressif/esp-idf-release-v5.5/components/bootloader_support C:/Espressif/esp-idf-release-v5.5/components/cxx C:/Espressif/esp-idf-release-v5.5/components/efuse C:/Espressif/esp-idf-release-v5.5/components/esp_app_format C:/Espressif/esp-idf-release-v5.5/components/esp_bootloader_format C:/Espressif/esp-idf-release-v5.5/components/esp_common C:/Espressif/esp-idf-release-v5.5/components/esp_driver_gpio C:/Espressif/esp-idf-release-v5.5/components/esp_driver_i2c C:/Espressif/esp-idf-release-v5.5/components/esp_hw_support C:/Espressif/esp-idf-release-v5.5/components/esp_mm C:/Espressif/esp-idf-release-v5.5/components/esp_partition C:/Espressif/esp-idf-release-v5.5/components/esp_pm C:/Espressif/esp-idf-release-v5.5/components/esp_ringbuf C:/Espressif/esp-idf-release-v5.5/components/esp_rom C:/Espressif/esp-idf-release-v5.5/components/esp_security C:/Espressif/esp-idf-release-v5.5/components/esp_system C:/Espressif/esp-idf-release-v5.5/components/esp_timer C:/Espressif/esp-idf-release-v5.5/components/esptool_py D:/hackathon/drivesense_edge/components/firmgen_telemetry C:/Espressif/esp-idf-release-v5.5/components/freertos C:/Espressif/esp-idf-release-v5.5/components/hal C:/Espressif/esp-idf-release-v5.5/components/heap C:/Espressif/esp-idf-release-v5.5/components/log D:/hackathon/drivesense_edge/main C:/Espressif/esp-idf-release-v5.5/components/mbedtls C:/Espressif/esp-idf-release-v5.5/components/newlib C:/Espressif/esp-idf-release-v5.5/components/partition_table C:/Espressif/esp-idf-release-v5.5/components/pthread C:/Espressif/esp-idf-release-v5.5/components/riscv C:/Espressif/esp-idf-release-v5.5/components/soc C:/Espressif/esp-idf-release-v5.5/components/spi_flash
+-- Configuring done (17.6s)
+-- Generating done (1.1s)
+-- Build files have been written to: D:/hackathon/drivesense_edge/build
+[1/11] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\bootloader\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 D:/hackathon/drivesense_edge/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[2/11] No install step for 'bootloader'
+[3/11] Completed 'bootloader'
+[4/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/firmware/app/app.c.obj
+[5/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/__/firmware/platforms/esp32/hw290_imu.c.obj
+[6/11] Linking C static library esp-idf\main\libmain.a
+[7/11] Generating esp-idf/esp_system/ld/sections.ld
+[8/11] Linking CXX executable hw290_imu.elf
+[9/11] Generating binary image from built executable
+esptool.py v4.12.0
+Creating esp32c3 image...
+Merged 1 ELF section
+Successfully created esp32c3 image.
+Generated D:/hackathon/drivesense_edge/build/hw290_imu.bin
+[10/11] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 partition --type app D:/hackathon/drivesense_edge/build/partition_table/partition-table.bin D:/hackathon/drivesense_edge/build/hw290_imu.bin"
+hw290_imu.bin binary size 0x2f010 bytes. Smallest app partition is 0x100000 bytes. 0xd0ff0 bytes (82%) free.

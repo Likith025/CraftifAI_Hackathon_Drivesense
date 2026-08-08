@@ -1,0 +1,6 @@
+Checkpoint 2
+Firmware: HW290 MPU6050 reader with silent gyro calibration, gyro bias correction, low-pass filtering, vector magnitudes, and 1-second output
+I2C: SDA GPIO8, SCL GPIO10, address 0x68
+Target: ESP32-C3
+Runtime validated on COM11
+

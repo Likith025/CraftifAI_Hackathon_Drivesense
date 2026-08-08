@@ -1,0 +1,7 @@
+<map id="imu_init" name="imu_init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,72,56"/>
+<area shape="rect" id="Node000002" href="$hw290__imu_8c.html#a5243d8090f2ffa83eadf7ba022d7354d" title=" " alt="" coords="121,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,34,107,26,108,31,73,39"/>
+<area shape="rect" id="Node000003" href="$hw290__imu_8c.html#a9e347b35d2021117e1b79bd6505ad35c" title=" " alt="" coords="120,55,195,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="73,47,107,54,106,60,72,53"/>
+</map>

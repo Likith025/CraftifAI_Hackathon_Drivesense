@@ -1,0 +1,19 @@
+<map id="firmware/platforms/esp32/hw290_imu.c" name="firmware/platforms/esp32/hw290_imu.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="263,5,404,45"/>
+<area shape="rect" id="Node000002" href="$hw290__imu_8h.html" title=" " alt="" coords="5,93,104,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,48,109,92,108,87,266,43"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="129,93,194,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="293,48,200,90,198,85,291,43"/>
+<area shape="rect" id="Node000006" href="$app__config_8h.html" title=" " alt="" coords="218,93,313,119"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="319,47,286,84,282,81,315,44"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="337,93,468,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="352,44,385,81,381,84,348,47"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="492,93,633,119"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="389,43,517,86,515,91,387,48"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="658,93,763,119"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="405,39,645,88,644,94,404,44"/>
+<area shape="rect" id="Node000003" href="$imu__if_8h.html" title=" " alt="" coords="21,167,88,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="57,119,57,153,52,153,52,119"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="17,240,93,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="57,192,57,226,52,226,52,192"/>
+</map>

@@ -1,0 +1,9 @@
+Checkpoint 4
+Firmware: HW290 MPU6050 reader with calibration, filtering, event classification, generic MOTION DETECTED fallback, and Z-gyro road-impact detection
+I2C: SDA GPIO8, SCL GPIO10, address 0x68
+Filter alpha: 0.30
+Internal evaluation: 100 ms; serial output: 1 second
+Event priority: ROAD IMPACT > AGGRESSIVE CORNERING > HARSH ACCEL/BRAKING > MOTION DETECTED > NORMAL
+Road impact: Z gyro threshold 20 dps, delta 10 dps, recovery 8 dps, window 500 ms, confirmation 1
+Runtime deployed on COM11; stable NORMAL capture completed; road impact not physically exercised in capture
+

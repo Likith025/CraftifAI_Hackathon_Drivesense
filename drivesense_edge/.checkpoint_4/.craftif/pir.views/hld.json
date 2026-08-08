@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0.0",
+  "view": "hld",
+  "revision": "2d0f7785eeacfa0cb748e652dbf3fa1c",
+  "graph_version": 2,
+  "generated_at_ms": 1786180800874,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_drivesense_edge-hld",
+    "name": "drivesense_edge topology — HLD",
+    "description": "High-level architecture — MCU controller, firmware modules, and integrations",
+    "nodes": [
+      {
+        "id": "hld_esp32",
+        "node_type": "system_init",
+        "label": "ESP32 Main Controller",
+        "description": "Main firmware control node coordinating peripherals, storage, and connectivity.",
+        "ports": [
+          {
+            "id": "hld_esp32::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_esp32::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "hld_role": "controller"
+        },
+        "visual": {
+          "x": 0.0,
+          "y": -496.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "hld__i2c",
+        "node_type": "i2c_device",
+        "label": "APP I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "hld__i2c::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld__i2c::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 8,
+          "scl_pin": 10,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "pin_bindings": {
+            "sda": 8,
+            "scl": 10
+          },
+          "hld_role": "peripheral",
+          "source_node_id": "_i2c"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -232.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "hld_imu_i2c",
+        "node_type": "i2c_device",
+        "label": "IMU I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "hld_imu_i2c::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_imu_i2c::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 21,
+          "scl_pin": 22,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "hld_role": "peripheral",
+          "source_node_id": "imu_i2c"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 32.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "hld_app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "hld_app_task::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_app_task::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 1000.0,
+          "hld_role": "runtime",
+          "source_node_id": "app_task"
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 1000.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": 296.0,
+          "layer": 0
+        }
+      }
+    ],
+    "connections": [
+      [
+        "hld_esp32::hld::out",
+        "hld__i2c::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld_imu_i2c::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld_app_task::hld::in"
+      ],
+      [
+        "hld__i2c::hld::out",
+        "hld_app_task::hld::in"
+      ],
+      [
+        "hld_app_task::hld::out",
+        "hld__i2c::hld::in"
+      ],
+      [
+        "hld_app_task::hld::out",
+        "hld_imu_i2c::hld::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "horizontal",
+      "node_width": 280.0,
+      "layer_gap": 150.0,
+      "node_gap": 64.0
+    },
+    "runtime_metadata": {
+      "telemetry_enabled": false,
+      "overlays": {
+        "hld_projection": "architecture",
+        "hld_edge_labels": {
+          "hld_esp32::hld::out|hld__i2c::hld::in": "Peripheral I/O",
+          "hld_esp32::hld::out|hld_imu_i2c::hld::in": "Peripheral I/O",
+          "hld_esp32::hld::out|hld_app_task::hld::in": "Firmware Logic",
+          "hld__i2c::hld::out|hld_app_task::hld::in": "Forward Sensor Event",
+          "hld_app_task::hld::out|hld__i2c::hld::in": "Data Flow",
+          "hld_app_task::hld::out|hld_imu_i2c::hld::in": "Data Flow"
+        },
+        "diagram_view": "hld"
+      }
+    }
+  },
+  "mermaid": "graph TD\n    hld_esp32[\"ESP32 Main Controller\"]\n    hld__i2c[\"APP I2C Device\"]\n    hld_imu_i2c[\"IMU I2C Device\"]\n    hld_app_task[\"Task app_task\"]\n    hld_esp32 -->|Peripheral I/O| hld__i2c\n    hld_esp32 -->|Peripheral I/O| hld_imu_i2c\n    hld_esp32 -->|Firmware Logic| hld_app_task\n    hld__i2c -->|Forward Sensor Event| hld_app_task\n    hld_app_task -->|Data Flow| hld__i2c\n    hld_app_task -->|Data Flow| hld_imu_i2c",
+  "title": "High-Level Design"
+}

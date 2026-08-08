@@ -1,0 +1,23 @@
+Command: ninja all
+[1/16] Linking C static library esp-idf\esp_pm\libesp_pm.a
+[2/16] Linking C static library esp-idf\esp_driver_gpio\libesp_driver_gpio.a
+[3/16] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D D:\hackathon\drivesense_edge\build\bootloader\esp-idf\esptool_py && C:\Users\likit\.espressif\python_env\idf5.5_py3.13_env\Scripts\python.exe C:/Espressif/esp-idf-release-v5.5/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 D:/hackathon/drivesense_edge/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[4/16] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/entry.c.obj
+[5/16] No install step for 'bootloader'
+[6/16] Linking C static library esp-idf\riscv\libriscv.a
+[7/16] Linking C static library esp-idf\esp_ringbuf\libesp_ringbuf.a
+[8/16] Completed 'bootloader'
+[9/16] Linking C static library esp-idf\esp_driver_i2c\libesp_driver_i2c.a
+[10/16] Linking C static library esp-idf\firmgen_telemetry\libfirmgen_telemetry.a
+[11/16] Linking C static library esp-idf\main\libmain.a
+[12/16] Generating esp-idf/esp_system/ld/sections.ld
+[13/16] Building C object CMakeFiles/hw290_imu.elf.dir/project_elf_src_esp32c3.c.obj
+[14/16] Linking CXX executable hw290_imu.elf
+FAILED: hw290_imu.elf 
+C:\WINDOWS\system32\cmd.exe /C "cd . && C:\Users\likit\.espressif\tools\riscv32-esp-elf\esp-14.2.0_20241119\riscv32-esp-elf\bin\riscv32-esp-elf-g++.exe -march=rv32imc_zicsr_zifencei -nostartfiles -march=rv32imc_zicsr_zifencei    -Wl,--cref -Wl,--defsym=IDF_TARGET_ESP32C3=0 -Wl,--Map=D:/hackathon/drivesense_edge/build/hw290_imu.map -Wl,--no-warn-rwx-segments -Wl,--orphan-handling=warn -fno-rtti -fno-lto -Wl,--gc-sections -Wl,--warn-common -T rom.api.ld -T esp32c3.peripherals.ld -T esp32c3.rom.ld -T esp32c3.rom.api.ld -T esp32c3.rom.bt_funcs.ld -T esp32c3.rom.libgcc.ld -T esp32c3.rom.version.ld -T esp32c3.rom.ble_master.ld -T esp32c3.rom.ble_50.ld -T esp32c3.rom.ble_smp.ld -T esp32c3.rom.ble_dtm.ld -T esp32c3.rom.ble_test.ld -T esp32c3.rom.ble_scan.ld -T esp32c3.rom.eco3.ld -T esp32c3.rom.eco3_bt_funcs.ld -T esp32c3.rom.libc.ld -T esp32c3.rom.libc-suboptimal_for_misaligned_mem.ld -T esp32c3.rom.newlib.ld -T memory.ld -T sections.ld -Wl,--wrap=i2c_new_master_bus -Wl,--wrap=i2c_master_bus_add_device -Wl,--wrap=i2c_master_transmit -Wl,--wrap=i2c_master_receive -Wl,--wrap=i2c_master_transmit_receive -Wl,--wrap=uart_set_pin -Wl,--wrap=uart_write_bytes -Wl,--wrap=uart_read_bytes -Wl,--wrap=esp_wifi_scan_start -Wl,--wrap=esp_wifi_scan_stop -Wl,--wrap=esp_wifi_scan_get_ap_num -Wl,--wrap=esp_mqtt_client_init -Wl,--wrap=esp_mqtt_client_publish -Wl,--wrap=esp_mqtt_client_enqueue -Wl,--wrap=esp_mqtt_client_subscribe -Wl,--wrap=esp_mqtt_client_subscribe_single @CMakeFiles\hw290_imu.elf.rsp -o hw290_imu.elf && cd ."
+C:/Users/likit/.espressif/tools/riscv32-esp-elf/esp-14.2.0_20241119/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/14.2.0/../../../../riscv32-esp-elf/bin/ld.exe: esp-idf/main/libmain.a(entry.c.obj): in function `app_main':
+D:\hackathon\drivesense_edge\build/..\main/entry.c:7:(.text.app_main+0xa): undefined reference to `app_start'
+collect2.exe: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.

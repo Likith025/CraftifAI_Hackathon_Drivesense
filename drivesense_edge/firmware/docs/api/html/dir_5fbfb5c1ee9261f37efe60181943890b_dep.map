@@ -1,0 +1,10 @@
+<map id="firmware/platforms/esp32" name="firmware/platforms/esp32">
+<area shape="rect" id="node1" href="dir_5fbfb5c1ee9261f37efe60181943890b.html" title="esp32" alt="" coords="55,52,112,77"/>
+<area shape="rect" id="node2" href="dir_083ea7d1d8d439cf36418700c089a9b7.html" title="configs" alt="" coords="5,125,68,151"/>
+<area shape="poly" id="edge1" href="dir_000003_000001.html" alt="" coords="78,79,54,115,50,112,73,76"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000003_000001.html" title="1" alt="" coords="57,107,65,122"/>
+<area shape="rect" id="node3" href="dir_2ce39b56dba5272830b639f285cc8463.html" title="interfaces" alt="" coords="92,125,171,151"/>
+<area shape="poly" id="edge2" href="dir_000003_000005.html" alt="" coords="93,76,118,113,114,116,89,79"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000003_000005.html" title="1" alt="" coords="116,98,124,113"/>
+<area shape="rect" id="clust1" href="dir_7e164800e1e4b55e6bb0226bd72cf4d6.html" title="platforms" alt="" coords="43,16,123,88"/>
+</map>

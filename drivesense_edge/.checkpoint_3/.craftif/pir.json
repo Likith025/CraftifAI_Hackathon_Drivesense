@@ -1,0 +1,947 @@
+{
+  "schema_version": "2.0.0",
+  "id": "pir_drivesense_edge",
+  "revision": "2d0f7785eeacfa0cb748e652dbf3fa1c",
+  "provenance": {
+    "project_path": "D:\\hackathon\\drivesense_edge",
+    "chat_id": "55cf52aa-deb7-4997-a915-d2b6c8c2937a",
+    "revision": "2d0f7785eeacfa0cb748e652dbf3fa1c",
+    "generated_at_ms": 1786180800869,
+    "analyzer_version": "pir_maker-static-0.2.0",
+    "analyzed_files": [
+      "CMakeLists.txt",
+      "firmware/app/app.c",
+      "firmware/app/app.h",
+      "firmware/configs/app_config.h",
+      "firmware/interfaces/imu_if.h",
+      "firmware/platforms/esp32/hw290_imu.c",
+      "firmware/platforms/esp32/hw290_imu.h",
+      "main/CMakeLists.txt",
+      "main/entry.c",
+      "main/firmgen_sources.cmake",
+      "sdkconfig",
+      "sdkconfig.defaults"
+    ],
+    "file_hashes": {
+      "CMakeLists.txt": "c9392f75d97d7c02b99a35853229faa1",
+      "main/CMakeLists.txt": "4180707e7c7106969de8581f2722f960",
+      "firmware/interfaces/imu_if.h": "3c1621974d42086517201f06048ba570",
+      "main/entry.c": "6f000e9536c07dccf289bae872912b64",
+      "main/firmgen_sources.cmake": "a426e1357c9350cf996afd00f3b12b40",
+      "firmware/configs/app_config.h": "ba11e9b5a85e24dcde4ab5fd7ac32836",
+      "firmware/platforms/esp32/hw290_imu.c": "ee2e81ee01e9b2b941fb63d99e85285c",
+      "firmware/app/app.c": "e2f5ad208fbc79605b692df7655cc84f",
+      "sdkconfig.defaults": "639d0f9da6adecf440d5a365f9b70464",
+      "sdkconfig": "9c35d08b513d8d58e105208b7583a874",
+      "firmware/platforms/esp32/hw290_imu.h": "8f8ebad596e408df332ad72bda1c1db3",
+      "firmware/app/app.h": "77284bd5de999d442beee1a33f122ee5"
+    }
+  },
+  "approval": {
+    "status": "stale"
+  },
+  "nodes": [
+    {
+      "id": "boot",
+      "node_type": "system_init",
+      "label": "Boot / app_main",
+      "properties": {
+        "target": "esp32c3"
+      },
+      "source_refs": [
+        {
+          "file": "main/entry.c",
+          "confidence": 1.0,
+          "inferred_by": "static"
+        }
+      ],
+      "sync": {
+        "state": "synced",
+        "last_synced_revision": "2d0f7785eeacfa0cb748e652dbf3fa1c"
+      },
+      "ownership": {
+        "primary_files": [
+          "main/entry.c"
+        ]
+      },
+      "editable_fields": [
+        "target"
+      ],
+      "layer": "system",
+      "ai_summary": "Bootstraps firmware startup and initializes core subsystems.",
+      "confidence": 1.0,
+      "authority": "agent",
+      "semantic_tags": [],
+      "dependencies": []
+    },
+    {
+      "id": "app_task",
+      "node_type": "rtos_task",
+      "label": "Task app_task",
+      "properties": {
+        "task_name": "app_task",
+        "priority": 5,
+        "stack_size": 4096,
+        "period_ms": 1000.0
+      },
+      "source_refs": [
+        {
+          "file": "firmware/configs/app_config.h",
+          "confidence": 1.0,
+          "inferred_by": "static"
+        }
+      ],
+      "sync": {
+        "state": "synced",
+        "last_synced_revision": "2d0f7785eeacfa0cb748e652dbf3fa1c"
+      },
+      "ownership": {
+        "primary_files": [
+          "firmware/configs/app_config.h"
+        ]
+      },
+      "editable_fields": [
+        "task_name",
+        "priority",
+        "stack_size",
+        "period_ms"
+      ],
+      "layer": "runtime",
+      "ai_summary": "Executes RTOS loop logic for app_task.",
+      "confidence": 1.0,
+      "authority": "agent",
+      "semantic_tags": [],
+      "dependencies": []
+    },
+    {
+      "id": "_i2c",
+      "node_type": "i2c_device",
+      "label": "APP I2C Device",
+      "properties": {
+        "sda_pin": 8,
+        "scl_pin": 10,
+        "address": "0x68",
+        "clock_hz": 100000,
+        "pin_bindings": {
+          "sda": 8,
+          "scl": 10
+        }
+      },
+      "source_refs": [
+        {
+          "file": "firmware/configs/app_config.h",
+          "confidence": 1.0,
+          "inferred_by": "static"
+        }
+      ],
+      "sync": {
+        "state": "synced",
+        "last_synced_revision": "2d0f7785eeacfa0cb748e652dbf3fa1c"
+      },
+      "ownership": {
+        "primary_files": [
+          "firmware/configs/app_config.h"
+        ]
+      },
+      "editable_fields": [
+        "sda_pin",
+        "scl_pin",
+        "address",
+        "clock_hz"
+      ],
+      "layer": "physical",
+      "ai_summary": "Represents an I2C peripheral with mapped bus pins.",
+      "confidence": 1.0,
+      "authority": "agent",
+      "semantic_tags": [],
+      "dependencies": []
+    },
+    {
+      "id": "imu_i2c",
+      "node_type": "i2c_device",
+      "label": "IMU I2C Device",
+      "properties": {
+        "sda_pin": 21,
+        "scl_pin": 22,
+        "address": "0x68",
+        "clock_hz": 100000
+      },
+      "source_refs": [
+        {
+          "file": "firmware/configs/app_config.h",
+          "confidence": 1.0,
+          "inferred_by": "static"
+        }
+      ],
+      "sync": {
+        "state": "synced",
+        "last_synced_revision": "2d0f7785eeacfa0cb748e652dbf3fa1c"
+      },
+      "ownership": {
+        "primary_files": [
+          "firmware/configs/app_config.h"
+        ]
+      },
+      "editable_fields": [
+        "sda_pin",
+        "scl_pin",
+        "address",
+        "clock_hz"
+      ],
+      "layer": "physical",
+      "ai_summary": "Represents an I2C peripheral with mapped bus pins.",
+      "confidence": 1.0,
+      "authority": "agent",
+      "semantic_tags": [],
+      "dependencies": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_boot_app_task",
+      "source_node_id": "boot",
+      "target_node_id": "app_task",
+      "source_port_id": "boot_boot_out_0",
+      "target_port_id": "app_task_exec_in_0",
+      "kind": "execution",
+      "confidence": 0.9,
+      "source_refs": [],
+      "semantic_label": "spawns",
+      "validated": false
+    },
+    {
+      "id": "e_boot__i2c",
+      "source_node_id": "boot",
+      "target_node_id": "_i2c",
+      "source_port_id": "boot_boot_out_0",
+      "target_port_id": "_i2c_exec_in_0",
+      "kind": "execution",
+      "confidence": 0.9,
+      "source_refs": [],
+      "semantic_label": "initializes",
+      "validated": false
+    },
+    {
+      "id": "e_boot_imu_i2c",
+      "source_node_id": "boot",
+      "target_node_id": "imu_i2c",
+      "source_port_id": "boot_boot_out_0",
+      "target_port_id": "imu_i2c_exec_in_0",
+      "kind": "execution",
+      "confidence": 0.9,
+      "source_refs": [],
+      "semantic_label": "initializes",
+      "validated": false
+    },
+    {
+      "id": "e__i2c_app_task_trigger_in",
+      "source_node_id": "_i2c",
+      "target_node_id": "app_task",
+      "source_port_id": "_i2c_data_out_2",
+      "target_port_id": "app_task_trigger_in_1",
+      "kind": "event",
+      "confidence": 0.78,
+      "source_refs": [],
+      "semantic_label": "triggers",
+      "validated": false
+    },
+    {
+      "id": "e_app_task__i2c_data_in",
+      "source_node_id": "app_task",
+      "target_node_id": "_i2c",
+      "source_port_id": "app_task_data_out_3",
+      "target_port_id": "_i2c_data_in_1",
+      "kind": "data",
+      "confidence": 0.78,
+      "source_refs": [],
+      "semantic_label": "data_flow",
+      "validated": false
+    },
+    {
+      "id": "e_app_task_imu_i2c_data_in",
+      "source_node_id": "app_task",
+      "target_node_id": "imu_i2c",
+      "source_port_id": "app_task_data_out_3",
+      "target_port_id": "imu_i2c_data_in_1",
+      "kind": "data",
+      "confidence": 0.78,
+      "source_refs": [],
+      "semantic_label": "data_flow",
+      "validated": false
+    }
+  ],
+  "layers": {
+    "physical": [
+      "_i2c",
+      "imu_i2c"
+    ],
+    "runtime": [
+      "app_task"
+    ],
+    "network": [],
+    "system": [
+      "boot"
+    ]
+  },
+  "partitions": [],
+  "components": [
+    {
+      "id": "main",
+      "path": "main/CMakeLists.txt",
+      "requires": [
+        "esp_driver_i2c",
+        "REQUIRES",
+        "firmgen_telemetry"
+      ],
+      "source_files": []
+    }
+  ],
+  "summary": {
+    "headline": "4 nodes, 6 connections — valid",
+    "node_count": 4,
+    "edge_count": 6,
+    "warnings": [
+      "Cyclic execution path detected involving: boot -> app_task -> _i2c -> app_task"
+    ]
+  },
+  "diagrams": {
+    "hld": {
+      "title": "High-Level Design",
+      "mermaid": "graph TD\n    hld_esp32[\"ESP32 Main Controller\"]\n    hld__i2c[\"APP I2C Device\"]\n    hld_imu_i2c[\"IMU I2C Device\"]\n    hld_app_task[\"Task app_task\"]\n    hld_esp32 -->|Peripheral I/O| hld__i2c\n    hld_esp32 -->|Peripheral I/O| hld_imu_i2c\n    hld_esp32 -->|Firmware Logic| hld_app_task\n    hld__i2c -->|Forward Sensor Event| hld_app_task\n    hld_app_task -->|Data Flow| hld__i2c\n    hld_app_task -->|Data Flow| hld_imu_i2c"
+    },
+    "lld": {
+      "title": "Low-Level Design (Firmware Workflow)",
+      "mermaid": "flowchart TD\n  subgraph freertos_runtime[\"FreeRTOS\"]\n    app_task[\"Task app_task\"]\n  end\n  _i2c[\"APP I2C Device\"]\n  imu_i2c[\"IMU I2C Device\"]\n  _i2c --> app_task\n  app_task --> _i2c\n  app_task --> imu_i2c"
+    },
+    "sequence": {
+      "title": "Sequence Diagram",
+      "mermaid": "sequenceDiagram\n    participant boot as 1. Boot / app_main\n    participant app_task as 2. Task app_task\n    participant _i2c as 3. APP I2C Device\n    participant imu_i2c as 4. IMU I2C Device\n    boot->>app_task: spawns\n    boot->>_i2c: initializes\n    boot->>imu_i2c: initializes\n    app_task->>_i2c: data_flow\n    app_task->>imu_i2c: data_flow\n    _i2c->>app_task: triggers",
+      "participants": [
+        "boot",
+        "app_task",
+        "_i2c",
+        "imu_i2c"
+      ],
+      "generated_from": [
+        "main/entry.c",
+        "firmware/configs/app_config.h"
+      ]
+    },
+    "hld_graph": {
+      "schema_version": 1,
+      "id": "pir_drivesense_edge-hld",
+      "name": "drivesense_edge topology — HLD",
+      "description": "High-level architecture — MCU controller, firmware modules, and integrations",
+      "nodes": [
+        {
+          "id": "hld_esp32",
+          "node_type": "system_init",
+          "label": "ESP32 Main Controller",
+          "description": "Main firmware control node coordinating peripherals, storage, and connectivity.",
+          "ports": [
+            {
+              "id": "hld_esp32::hld::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "hld_esp32::hld::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "hld_role": "controller"
+          },
+          "visual": {
+            "x": 0.0,
+            "y": -496.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "hld__i2c",
+          "node_type": "i2c_device",
+          "label": "APP I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "hld__i2c::hld::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "hld__i2c::hld::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 8,
+            "scl_pin": 10,
+            "address": "0x68",
+            "clock_hz": 100000,
+            "pin_bindings": {
+              "sda": 8,
+              "scl": 10
+            },
+            "hld_role": "peripheral",
+            "source_node_id": "_i2c"
+          },
+          "execution": {},
+          "visual": {
+            "x": 0.0,
+            "y": -232.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "hld_imu_i2c",
+          "node_type": "i2c_device",
+          "label": "IMU I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "hld_imu_i2c::hld::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "hld_imu_i2c::hld::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 21,
+            "scl_pin": 22,
+            "address": "0x68",
+            "clock_hz": 100000,
+            "hld_role": "peripheral",
+            "source_node_id": "imu_i2c"
+          },
+          "execution": {},
+          "visual": {
+            "x": 0.0,
+            "y": 32.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "hld_app_task",
+          "node_type": "rtos_task",
+          "label": "Task app_task",
+          "description": "Executes RTOS loop logic for app_task.",
+          "ports": [
+            {
+              "id": "hld_app_task::hld::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "hld_app_task::hld::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "task_name": "app_task",
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0,
+            "hld_role": "runtime",
+            "source_node_id": "app_task"
+          },
+          "execution": {
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0
+          },
+          "visual": {
+            "x": 0.0,
+            "y": 296.0,
+            "layer": 0
+          }
+        }
+      ],
+      "connections": [
+        [
+          "hld_esp32::hld::out",
+          "hld__i2c::hld::in"
+        ],
+        [
+          "hld_esp32::hld::out",
+          "hld_imu_i2c::hld::in"
+        ],
+        [
+          "hld_esp32::hld::out",
+          "hld_app_task::hld::in"
+        ],
+        [
+          "hld__i2c::hld::out",
+          "hld_app_task::hld::in"
+        ],
+        [
+          "hld_app_task::hld::out",
+          "hld__i2c::hld::in"
+        ],
+        [
+          "hld_app_task::hld::out",
+          "hld_imu_i2c::hld::in"
+        ]
+      ],
+      "layout": {
+        "orientation": "horizontal",
+        "node_width": 280.0,
+        "layer_gap": 150.0,
+        "node_gap": 64.0
+      },
+      "runtime_metadata": {
+        "telemetry_enabled": false,
+        "overlays": {
+          "hld_projection": "architecture",
+          "hld_edge_labels": {
+            "hld_esp32::hld::out|hld__i2c::hld::in": "Peripheral I/O",
+            "hld_esp32::hld::out|hld_imu_i2c::hld::in": "Peripheral I/O",
+            "hld_esp32::hld::out|hld_app_task::hld::in": "Firmware Logic",
+            "hld__i2c::hld::out|hld_app_task::hld::in": "Forward Sensor Event",
+            "hld_app_task::hld::out|hld__i2c::hld::in": "Data Flow",
+            "hld_app_task::hld::out|hld_imu_i2c::hld::in": "Data Flow"
+          },
+          "diagram_view": "hld"
+        }
+      }
+    },
+    "lld_graph": {
+      "schema_version": 1,
+      "id": "pir_drivesense_edge-lld",
+      "name": "drivesense_edge topology — LLD",
+      "description": "Low-level design — FreeRTOS and peripheral/service workflow",
+      "nodes": [
+        {
+          "id": "app_task",
+          "node_type": "rtos_task",
+          "label": "Task app_task",
+          "description": "Executes RTOS loop logic for app_task.",
+          "ports": [
+            {
+              "id": "app_task::ldd::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "app_task::ldd::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "task_name": "app_task",
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0,
+            "lld_workflow": {
+              "role": "freertos",
+              "node_type": "rtos_task"
+            }
+          },
+          "execution": {
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0
+          },
+          "visual": {
+            "x": -420.0,
+            "y": 0.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "_i2c",
+          "node_type": "i2c_device",
+          "label": "APP I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "_i2c::ldd::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "_i2c::ldd::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 8,
+            "scl_pin": 10,
+            "address": "0x68",
+            "clock_hz": 100000,
+            "pin_bindings": {
+              "sda": 8,
+              "scl": 10
+            },
+            "lld_workflow": {
+              "role": "peripheral",
+              "node_type": "i2c_device"
+            }
+          },
+          "execution": {},
+          "visual": {
+            "x": -92.0,
+            "y": 0.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "imu_i2c",
+          "node_type": "i2c_device",
+          "label": "IMU I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "imu_i2c::ldd::in",
+              "name": "assoc_in",
+              "direction": "input",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "imu_i2c::ldd::out",
+              "name": "assoc_out",
+              "direction": "output",
+              "datatype": "association",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 21,
+            "scl_pin": 22,
+            "address": "0x68",
+            "clock_hz": 100000,
+            "lld_workflow": {
+              "role": "peripheral",
+              "node_type": "i2c_device"
+            }
+          },
+          "execution": {},
+          "visual": {
+            "x": 236.0,
+            "y": 0.0,
+            "layer": 0
+          }
+        }
+      ],
+      "connections": [
+        [
+          "_i2c::ldd::out",
+          "app_task::ldd::in"
+        ],
+        [
+          "app_task::ldd::out",
+          "_i2c::ldd::in"
+        ],
+        [
+          "app_task::ldd::out",
+          "imu_i2c::ldd::in"
+        ]
+      ],
+      "layout": {
+        "orientation": "vertical",
+        "node_width": 280.0,
+        "layer_gap": 120.0,
+        "node_gap": 48.0
+      },
+      "runtime_metadata": {
+        "telemetry_enabled": false,
+        "overlays": {
+          "diagram_view": "ldd",
+          "ldd_edge_labels": {
+            "app_task::ldd::out|imu_i2c::ldd::in": "data_flow",
+            "_i2c::ldd::out|app_task::ldd::in": "triggers",
+            "app_task::ldd::out|_i2c::ldd::in": "data_flow"
+          }
+        }
+      }
+    },
+    "sequence_graph": {
+      "schema_version": 1,
+      "id": "pir_drivesense_edge-sequence",
+      "name": "drivesense_edge topology — Sequence",
+      "description": "Execution and initialization order",
+      "nodes": [
+        {
+          "id": "boot",
+          "node_type": "system_init",
+          "label": "1. Boot / app_main",
+          "description": "Bootstraps firmware startup and initializes core subsystems.",
+          "ports": [
+            {
+              "id": "boot::in",
+              "name": "in",
+              "direction": "input",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "boot::out",
+              "name": "out",
+              "direction": "output",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "target": "esp32c3"
+          },
+          "execution": {},
+          "visual": {
+            "x": 0.0,
+            "y": 80.0,
+            "layer": 0
+          }
+        },
+        {
+          "id": "app_task",
+          "node_type": "rtos_task",
+          "label": "2. Task app_task",
+          "description": "Executes RTOS loop logic for app_task.",
+          "ports": [
+            {
+              "id": "app_task::in",
+              "name": "in",
+              "direction": "input",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "app_task::out",
+              "name": "out",
+              "direction": "output",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "task_name": "app_task",
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0
+          },
+          "execution": {
+            "priority": 5,
+            "stack_size": 4096,
+            "period_ms": 1000.0
+          },
+          "visual": {
+            "x": 320.0,
+            "y": 80.0,
+            "layer": 1
+          }
+        },
+        {
+          "id": "_i2c",
+          "node_type": "i2c_device",
+          "label": "3. APP I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "_i2c::in",
+              "name": "in",
+              "direction": "input",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "_i2c::out",
+              "name": "out",
+              "direction": "output",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 8,
+            "scl_pin": 10,
+            "address": "0x68",
+            "clock_hz": 100000,
+            "pin_bindings": {
+              "sda": 8,
+              "scl": 10
+            }
+          },
+          "execution": {},
+          "visual": {
+            "x": 640.0,
+            "y": 80.0,
+            "layer": 2
+          }
+        },
+        {
+          "id": "imu_i2c",
+          "node_type": "i2c_device",
+          "label": "4. IMU I2C Device",
+          "description": "Represents an I2C peripheral with mapped bus pins.",
+          "ports": [
+            {
+              "id": "imu_i2c::in",
+              "name": "in",
+              "direction": "input",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            },
+            {
+              "id": "imu_i2c::out",
+              "name": "out",
+              "direction": "output",
+              "datatype": "any",
+              "required": false,
+              "multiplicity": "one"
+            }
+          ],
+          "properties": {
+            "sda_pin": 21,
+            "scl_pin": 22,
+            "address": "0x68",
+            "clock_hz": 100000
+          },
+          "execution": {},
+          "visual": {
+            "x": 960.0,
+            "y": 80.0,
+            "layer": 3
+          }
+        }
+      ],
+      "connections": [
+        [
+          "boot::out",
+          "app_task::in"
+        ],
+        [
+          "boot::out",
+          "_i2c::in"
+        ],
+        [
+          "boot::out",
+          "imu_i2c::in"
+        ],
+        [
+          "app_task::out",
+          "_i2c::in"
+        ],
+        [
+          "app_task::out",
+          "imu_i2c::in"
+        ],
+        [
+          "_i2c::out",
+          "app_task::in"
+        ]
+      ],
+      "layout": {
+        "orientation": "horizontal",
+        "node_width": 0.0,
+        "layer_gap": 0.0,
+        "node_gap": 0.0
+      }
+    }
+  },
+  "change_log": [],
+  "unresolved": [],
+  "read_only": false,
+  "graph_version": 2,
+  "generation": {
+    "mode": "static",
+    "triggered_by": "user_refresh",
+    "analyzed_at_ms": 1786180800870,
+    "input_files": [
+      "CMakeLists.txt",
+      "firmware/app/app.c",
+      "firmware/app/app.h",
+      "firmware/configs/app_config.h",
+      "firmware/interfaces/imu_if.h",
+      "firmware/platforms/esp32/hw290_imu.c",
+      "firmware/platforms/esp32/hw290_imu.h",
+      "main/CMakeLists.txt",
+      "main/entry.c",
+      "main/firmgen_sources.cmake",
+      "sdkconfig",
+      "sdkconfig.defaults"
+    ]
+  },
+  "sync_metadata": {
+    "project_file": "",
+    "content_hash": "",
+    "pending_patches": [],
+    "last_diff": {
+      "from_revision": "c8c40ccd9893110ec0c34a6d45bf1526",
+      "to_revision": "2d0f7785eeacfa0cb748e652dbf3fa1c",
+      "nodes_added": [],
+      "nodes_removed": [
+        "logger"
+      ],
+      "nodes_changed": [
+        "boot",
+        "app_task"
+      ],
+      "edges_added": [],
+      "edges_removed": [
+        "e_boot_logger",
+        "e_app_task_logger_data_in"
+      ]
+    }
+  },
+  "validation_state": {
+    "valid": true,
+    "error_count": 0,
+    "warning_count": 1,
+    "validated_at_ms": 1786180800870
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.0.0",
+  "view": "sequence",
+  "revision": "c8c40ccd9893110ec0c34a6d45bf1526",
+  "graph_version": 1,
+  "generated_at_ms": 1786176379761,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_drivesense_edge-sequence",
+    "name": "drivesense_edge topology — Sequence",
+    "description": "Execution and initialization order",
+    "nodes": [
+      {
+        "id": "boot",
+        "node_type": "system_init",
+        "label": "1. Boot / app_main",
+        "description": "Bootstraps firmware startup and initializes core subsystems.",
+        "ports": [
+          {
+            "id": "boot::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "boot::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "target": "esp32"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 80.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "2. Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 500.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 500.0
+        },
+        "visual": {
+          "x": 320.0,
+          "y": 80.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "logger",
+        "node_type": "logger",
+        "label": "3. Logger",
+        "description": "Emits structured runtime logs for diagnostics.",
+        "ports": [
+          {
+            "id": "logger::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "logger::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "tag": "APP",
+          "level": "info"
+        },
+        "execution": {},
+        "visual": {
+          "x": 640.0,
+          "y": 80.0,
+          "layer": 2
+        }
+      },
+      {
+        "id": "_i2c",
+        "node_type": "i2c_device",
+        "label": "4. APP I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "_i2c::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_i2c::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 8,
+          "scl_pin": 10,
+          "address": "0x68",
+          "clock_hz": 100000,
+          "pin_bindings": {
+            "sda": 8,
+            "scl": 10
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 960.0,
+          "y": 80.0,
+          "layer": 3
+        }
+      },
+      {
+        "id": "imu_i2c",
+        "node_type": "i2c_device",
+        "label": "5. IMU I2C Device",
+        "description": "Represents an I2C peripheral with mapped bus pins.",
+        "ports": [
+          {
+            "id": "imu_i2c::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "imu_i2c::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "sda_pin": 21,
+          "scl_pin": 22,
+          "address": "0x68",
+          "clock_hz": 100000
+        },
+        "execution": {},
+        "visual": {
+          "x": 1280.0,
+          "y": 80.0,
+          "layer": 4
+        }
+      }
+    ],
+    "connections": [
+      [
+        "boot::out",
+        "app_task::in"
+      ],
+      [
+        "boot::out",
+        "logger::in"
+      ],
+      [
+        "boot::out",
+        "_i2c::in"
+      ],
+      [
+        "boot::out",
+        "imu_i2c::in"
+      ],
+      [
+        "app_task::out",
+        "logger::in"
+      ],
+      [
+        "app_task::out",
+        "_i2c::in"
+      ],
+      [
+        "app_task::out",
+        "imu_i2c::in"
+      ],
+      [
+        "_i2c::out",
+        "app_task::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "horizontal",
+      "node_width": 0.0,
+      "layer_gap": 0.0,
+      "node_gap": 0.0
+    }
+  },
+  "mermaid": "sequenceDiagram\n    participant boot as 1. Boot / app_main\n    participant app_task as 2. Task app_task\n    participant logger as 3. Logger\n    participant _i2c as 4. APP I2C Device\n    participant imu_i2c as 5. IMU I2C Device\n    boot->>app_task: spawns\n    boot->>logger: initializes\n    boot->>_i2c: initializes\n    boot->>imu_i2c: initializes\n    app_task->>logger: data_flow\n    app_task->>_i2c: data_flow\n    app_task->>imu_i2c: data_flow\n    _i2c->>app_task: triggers",
+  "title": "Sequence Diagram"
+}

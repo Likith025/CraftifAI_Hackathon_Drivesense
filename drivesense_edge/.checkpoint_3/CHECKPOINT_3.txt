@@ -1,0 +1,10 @@
+Checkpoint 3
+Firmware: HW290 MPU6050 reader with calibration, low-pass filtering, vector magnitudes, motion detection, hysteresis, faster 100 ms evaluation, and noise-resistant tuning
+I2C: SDA GPIO8, SCL GPIO10, address 0x68
+Filter alpha: 0.30
+Motion entry: accel deviation 0.20 g, gyro magnitude 8.0 dps, 4 samples
+Motion clear: accel deviation 0.10 g, gyro magnitude 3.0 dps, 1 sample
+Serial output: once per second
+Target: ESP32-C3
+Runtime validated on COM11
+

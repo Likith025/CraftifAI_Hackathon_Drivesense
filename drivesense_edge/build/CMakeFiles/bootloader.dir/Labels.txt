@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+D:/hackathon/drivesense_edge/build/CMakeFiles/bootloader
+D:/hackathon/drivesense_edge/build/CMakeFiles/bootloader.rule
+D:/hackathon/drivesense_edge/build/CMakeFiles/bootloader-complete.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+D:/hackathon/drivesense_edge/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
